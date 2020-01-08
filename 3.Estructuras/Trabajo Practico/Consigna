@@ -1,0 +1,10 @@
+Trabajo Practico 2 - Algoritmos y estructura de datos
+
+Una casa de repuestos de automotor, dispone de un archivo de productos con la siguiente información:
+
+Código de producto (8 dígitos).
+Modelo de pertenencia (2 dígitos)
+Cantidad en stock (8 dígitos)
+Fecha de ultima reposición (ddmmaa)
+Precio unitario (float)
+Descripción del mismo 20 caracteres Se solicita hacer un programa para ordenar el archivo por Modelo de pertenencia y código de producto. Consideraciones a tener en cuenta. Se dispone únicamente de 1 kb de memoria para arreglos. Los Nodos no pueden superar los 10 bytes.
