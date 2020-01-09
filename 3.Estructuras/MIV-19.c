@@ -1,30 +1,27 @@
-/* Ej. MIV-19: Dado el siguiente enunciado
-/*Una biblioteca necesita un programa que efectúe las altas en el archivo maestro de libros. Para ello cuenta con:
-/*a) LIBROS.dat, archivo maestro de libros ordenado por código de libro, con un registro por cada libro, con el siguiente diseño:
-/*a.1 código de libro (8 caracteres)
-/*a.2  título del libro (30 caract)
-/*a.3 apellido del autor (15 caracteres)                         
-/*a.4 cantidad de ejemplares (2 dígitos)
-/*a.5 nacionalidad  (6 dígitos)
-/*a.6 otros datos (100 caracteres)
-/*
-/*b) NOVEDADES.dat, archivo con los libros a dar de alta  sin ningún orden, con el mismo diseño del archivo maestro.
-/*
-/*Se pide realizar la metodología necesaria para que el programa:
-/*1) Genere un nuevo archivo LIBROSACT.dat, con el mismo diseño y orden que el maestro y con las altas incorporadas. 
-/*
-/*2) Emitir el siguiente listado, agrupado por nacionalidad y ordenado ascendente por cantidad total de autores:
-/*              Nacionalidad...................................   Cantidad Total de autores: 999
-/*		Apellido del Autor             Cantidad total de títulos  
-/*		……......................	                    99
-/*
-/* Recursos y Restricciones: 
-/*    • Optimización: dado que el uso de ciclos afecta el tiempo de ejecución de un proceso, se evaluará la eficiencia en el uso de los mismos.
-/*    • Máximo de Nacionalidades: 100
-/*    • Memoria para arrays: 1.000 bytes.
-/*    • Memoria dinámica:  nodo de 17 bytes * cantidad de registros del archivo de novedades + nodo de 21 bytes * cantidad de autores.
-/*    • Memoria en disco: solo para la grabación del nuevo archivo
-/*    • Accesos a disco: 2 accesos a cada registro de Novedades, un solo recorrido del archivo de Libros y al nuevo archivo-*/
+/* La ciudad de Buenos Aires requiere un estudio estadístico de infracciones realizadas por los vehículos en sus calles. Para ello cuenta con un archivo de infracciones, ordenado por fecha de la infracción creciente, con el siguiente diseño:
+
+1. Patente
+2. Fecha de la Infracción
+3. Código de la Infracción
+6 caracteres
+aammdd
+1..1000
+Se desea obtener un listado ordenado por código de infracción decreciente con las patentes que cometieron más de una vez la misma infracción.
+		
+Código de infracción 999
+           		          Patentes
+            		          xxx123
+             	                          xxx345
+a) Dibuje las estructuras de datos necesarios para su desarrollo, utilizando identificadores significativos para cada una de las estructuras, describir tipo y tamaño en bytes de las estructuras.
+b)  Escriba una estrategia de resolución y desarrolle el algoritmo de resolución
+
+ Recursos y Restricciones: 
+    • Optimización: dado que el uso de ciclos afecta el tiempo de ejecución de un proceso, se evaluará la eficiencia en el uso de los mismos.
+    • Memoria para arrays: 8.000 bytes.
+    • 1000  * Nodos de 11 bytes por vehículos que tuvieron infracciones
+    • Memoria en disco: 0 bytes
+    • Accesos a disco: un solo recorrido del archivo. 
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #define LOG(x) printf(x)
