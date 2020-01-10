@@ -31,7 +31,7 @@ Se pide realizar la metodología necesaria para que el programa:
 
 ptrNodoLibro generarIncorporados(FILE *archivo);
 void insertarNodoOrdenado(ptrNodoLibro ptrInicio, Libro info);
-void imprimirListado();
+void imprimirListado(ptrNodoLibro ptrInicio);
 
 typedef struct tLibros
 {
@@ -39,7 +39,7 @@ typedef struct tLibros
     char titulo[30];
     char apellido[15];
     int cantidad;
-    char nacionalidad[6];
+    int nacionalidad;
 } Libro;
 
 typedef struct tNodo
@@ -92,5 +92,21 @@ void insertarNodoOrdenado(ptrNodoLibro ptrInicio, Libro info)
     {
         ptrAnterior->ptrSiguiente = ptrNuevoNodo;
         ptrNuevoNodo->ptrSiguiente = ptrActual;
+    }
+}
+
+void imprimirListado(ptrNodoLibro ptrInicio)
+{
+    ptrNodoLibro ptrActual = ptrInicio;
+    ptrNodoLibro ptrNacionalidad = NULL;
+    ptrNodoLibro ptrNuevoNodo;
+    int nacionalidadActual = 0;
+    while (ptrActual != NULL)
+    {
+        nacionalidadActual = ptrActual->info.nacionalidad;
+        //Si la nacionalidad es igual a la del puntero, saco el nodo y lo grabo en el otro
+        //Si la nacionalidad es diferente leo el siguiente nodo
+        //Si llegue al final de la lista
+        ptrActual = ptrActual->ptrSiguiente;
     }
 }
