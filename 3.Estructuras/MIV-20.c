@@ -98,15 +98,27 @@ void insertarNodoOrdenado(ptrNodoLibro ptrInicio, Libro info)
 void imprimirListado(ptrNodoLibro ptrInicio)
 {
     ptrNodoLibro ptrActual = ptrInicio;
-    ptrNodoLibro ptrNacionalidad = NULL;
+    ptrNodoLibro ptrNacionalidad = ptrInicio;
     ptrNodoLibro ptrNuevoNodo;
     int nacionalidadActual = 0;
     while (ptrActual != NULL)
     {
         nacionalidadActual = ptrActual->info.nacionalidad;
-        //Si la nacionalidad es igual a la del puntero, saco el nodo y lo grabo en el otro
-        //Si la nacionalidad es diferente leo el siguiente nodo
-        //Si llegue al final de la lista
+        ptrNacionalidad = ptrActual;
+        while (ptrNacionalidad != NULL)
+        {
+            //Si la nacionalidad es igual a la del puntero, saco el nodo y lo grabo en el otro
+            if (nacionalidadActual == ptrNacionalidad->info.nacionalidad)
+            {
+                ptrNuevoNodo = (ptrNodoLibro)malloc(sizeof(NodoLibro));
+                ptrNuevoNodo->info = ptrNacionalidad->info;
+            }
+            //Si la nacionalidad es diferente leo el siguiente nodo
+            else
+            {
+                ptrNacionalidad = ptrNacionalidad->ptrSiguiente;
+            }
+        }
         ptrActual = ptrActual->ptrSiguiente;
     }
 }
