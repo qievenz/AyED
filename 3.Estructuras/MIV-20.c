@@ -27,11 +27,8 @@ Se pide realizar la metodología necesaria para que el programa:
 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define LOG(x) printf(x)
-
-ptrNodoLibro generarIncorporados(FILE *archivo);
-void insertarNodoOrdenado(ptrNodoLibro ptrInicio, Libro info);
-void imprimirListado(ptrNodoLibro ptrInicio);
 
 typedef struct tLibros
 {
@@ -40,7 +37,7 @@ typedef struct tLibros
     char apellido[15];
     int cantidad;
     int nacionalidad;
-} Libro;
+} Libro, *ptrLibro;
 
 typedef struct tNodo
 {
@@ -48,9 +45,14 @@ typedef struct tNodo
     struct tNodo *ptrSiguiente;
 } NodoLibro, *ptrNodoLibro;
 
+ptrNodoLibro generarIncorporados(FILE *archivo);
+void insertarNodoOrdenado(ptrNodoLibro ptrInicio, Libro info);
+void imprimirListado(ptrNodoLibro ptrInicio);
+void crearLibro();
+
 int main(int argc, char const *argv[])
 {
-    /*codigo*/
+    crearLibro();
     return 0;
 }
 
@@ -97,28 +99,88 @@ void insertarNodoOrdenado(ptrNodoLibro ptrInicio, Libro info)
 
 void imprimirListado(ptrNodoLibro ptrInicio)
 {
-    ptrNodoLibro ptrActual = ptrInicio;
-    ptrNodoLibro ptrNacionalidad = ptrInicio;
+    ptrNodoLibro ptrPasada = ptrInicio;
+    ptrNodoLibro ptrSubPasada = ptrInicio;
+    ptrNodoLibro ptrNacionalidad = NULL;
     ptrNodoLibro ptrNuevoNodo;
+    ptrNodoLibro ptrAnteriorNac;
+    ptrNodoLibro ptrAnteriorSubPasada;
     int nacionalidadActual = 0;
-    while (ptrActual != NULL)
+    int contNacionalidades;
+    while (ptrPasada != NULL)
     {
-        nacionalidadActual = ptrActual->info.nacionalidad;
-        ptrNacionalidad = ptrActual;
-        while (ptrNacionalidad != NULL)
+        contNacionalidades = 0;
+        nacionalidadActual = ptrPasada->info.nacionalidad;
+        ptrSubPasada = ptrPasada;
+        ptrNacionalidad = NULL;
+        while (ptrSubPasada != NULL)
         {
             //Si la nacionalidad es igual a la del puntero, saco el nodo y lo grabo en el otro
-            if (nacionalidadActual == ptrNacionalidad->info.nacionalidad)
+            if (nacionalidadActual == ptrSubPasada->info.nacionalidad)
             {
                 ptrNuevoNodo = (ptrNodoLibro)malloc(sizeof(NodoLibro));
-                ptrNuevoNodo->info = ptrNacionalidad->info;
+                ptrNuevoNodo->info = ptrSubPasada->info;
+                if (ptrNacionalidad == NULL)
+                {
+                    ptrNacionalidad = ptrNuevoNodo;
+                }
+                else
+                {
+                    ptrAnteriorNac->ptrSiguiente = ptrNuevoNodo;
+                }
+                ptrAnteriorNac = ptrNuevoNodo;
+                ptrAnteriorSubPasada = ptrSubPasada->ptrSiguiente;
+                if (ptrPasada == ptrSubPasada)
+                {
+                    ptrPasada = ptrAnteriorSubPasada;
+                }
+                free(ptrSubPasada);
+                ptrSubPasada = ptrAnteriorSubPasada;
+
+                contNacionalidades++;
             }
             //Si la nacionalidad es diferente leo el siguiente nodo
             else
             {
-                ptrNacionalidad = ptrNacionalidad->ptrSiguiente;
+                ptrAnteriorSubPasada = ptrSubPasada;
+                ptrSubPasada = ptrSubPasada->ptrSiguiente;
             }
         }
-        ptrActual = ptrActual->ptrSiguiente;
+        //Imprimir resultado para la nacionalidad actual
+        if (ptrPasada != NULL)
+        {
+            ptrPasada = ptrPasada->ptrSiguiente;
+        }
     }
+}
+void crearLibro()
+{
+    void ingresarDatos(ptrLibro ptrReg);
+    FILE *archivo;
+    Libro registro;
+    ingresarDatos(&registro);
+    archivo = fopen("./3.Estructuras/LIBROS.dat", "w");
+    while (strcmp(registro.codigo, "asd") != 0)
+    {
+        fprintf(archivo, "%s %s %s %d %d\n", registro.codigo, registro.titulo, registro.apellido, &registro.cantidad, &registro.nacionalidad);
+        ingresarDatos(&registro);
+    }
+    fclose(archivo);
+}
+void ingresarDatos(ptrLibro ptrReg)
+{
+    printf("\nCodigo[8]: ");
+    scanf("%s", ptrReg->codigo);
+    if (strcmp(ptrReg->codigo, "asd") == 0)
+    {
+        return;
+    }
+    printf("\nTitulo[30]: ");
+    scanf("%s", ptrReg->titulo);
+    printf("\nApellido[15]: ");
+    scanf("%s", ptrReg->apellido);
+    printf("\nCantidad: ");
+    scanf("%d", &(*ptrReg).cantidad);
+    printf("\nNacionalidad: ");
+    scanf("%d", &(*ptrReg).nacionalidad);
 }
