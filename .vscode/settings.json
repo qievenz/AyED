@@ -6,5 +6,21 @@
         "iostream": "cpp",
         "vector": "cpp",
         "stdio.h": "c"
-    }
+    },
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#2099f4",
+        "activityBar.activeBorder": "#fcc2e3",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#fcc2e3",
+        "activityBarBadge.foreground": "#15202b",
+        "titleBar.activeBackground": "#0b7fd6",
+        "titleBar.inactiveBackground": "#0b7fd699",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveForeground": "#e7e7e799",
+        "statusBar.background": "#0b7fd6",
+        "statusBarItem.hoverBackground": "#2099f4",
+        "statusBar.foreground": "#e7e7e7"
+    },
+    "peacock.color": "#0b7fd6"
 }
