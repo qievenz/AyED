@@ -52,5 +52,5 @@ void nuevoCliente(ptrCliente ptrFinal, int nroCarrito)
 void AtenderCliente(Caja cajas[], int nroCaja, ptrCliente ptrClienteInicio)
 {
     cajas[nroCaja].ptrClienteAsignado = ptrClienteInicio;
-    calcularImportes(int nroCarrito, int efectivo, int tc, int td, int ticket);
+    void calcularImportes(int nroCarrito, int efectivo, int tc, int td, int ticket);
 }
