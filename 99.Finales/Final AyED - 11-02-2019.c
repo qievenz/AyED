@@ -32,7 +32,7 @@ typedef struct carrito
 
 void queue(ptrCliente ptrFinal);
 void unQueue(ptrCliente ptrInicial);
-ptrCaja CajasHabilitadas(FILE *archivo);
+ptrCaja CajasHabilitadas(FILE *archivo, Caja cajas[], int maxCajas);
 void crearCajasHabilitadas();
 void nuevoCliente(ptrCliente *ptrInicio, ptrCliente *ptrFinal, int nroCarrito);
 void AtenderCliente(Caja cajas[], int nroCaja, ptrCliente *ptrClienteInicio);
@@ -45,22 +45,23 @@ int main(int argc, char const *argv[])
     ptrCliente ptrClientesFinal = NULL;
     ptrCaja ptrCajaPrueba = NULL;
     FILE *archivo;
-    crearCajasHabilitadas();
+    Caja cajas[40];
+    //crearCajasHabilitadas();
+    ptrCajaPrueba = CajasHabilitadas(archivo, cajas, 40);
     nuevoCliente(&ptrClientesInicio, &ptrClientesFinal, 1);
     nuevoCliente(&ptrClientesInicio, &ptrClientesFinal, 2);
     nuevoCliente(&ptrClientesInicio, &ptrClientesFinal, 3);
     nuevoCliente(&ptrClientesInicio, &ptrClientesFinal, 4);
     nuevoCliente(&ptrClientesInicio, &ptrClientesFinal, 5);
-    ptrCajaPrueba = CajasHabilitadas(archivo);
+    AtenderCliente(cajas, 4, &ptrClientesInicio);
     return 0;
 }
 //2.
-ptrCaja CajasHabilitadas(FILE *archivo)
+ptrCaja CajasHabilitadas(FILE *archivo, Caja cajas[], int maxCajas)
 {
-    Caja cajas[40];
     int nroCaja, efectivo;
     archivo = fopen(".\\99.Finales\\Cajas.dat", "r");
-    for (int i = 0; i < 40; i++)
+    for (int i = 0; i < maxCajas; i++)
     {
         fscanf(archivo, "%d %f", &cajas[i].numeroCaja, &cajas[i].efectivo);
         cajas[i].ptrClienteAsignado = NULL;
@@ -95,10 +96,10 @@ void nuevoCliente(ptrCliente *ptrInicio, ptrCliente *ptrFinal, int nroCarrito)
     }
 }
 //4.
-void AtenderCliente(Caja cajas[], int nroCaja, ptrCliente ptrClienteInicio)
+void AtenderCliente(Caja cajas[], int nroCaja, ptrCliente *ptrClienteInicio)
 {
-    ptrCaja ptrCajaAtencion = cajas + nroCaja + 1;
-    ptrCajaAtencion->ptrClienteAsignado = ptrClienteInicio;
+    ptrCaja ptrCajaAtencion = cajas + nroCaja - 1;
+    ptrCajaAtencion->ptrClienteAsignado = *ptrClienteInicio;
     Carrito calcularImportes(int nroCarrito);
     Carrito carritoCliente;
     //carritoCliente = calcularImportes(ptrClienteInicio->nroCarrito);
