@@ -33,8 +33,9 @@ typedef struct carrito
 void queue(ptrCliente ptrFinal);
 void unQueue(ptrCliente ptrInicial);
 ptrCaja CajasHabilitadas(FILE *archivo);
-void nuevoCliente(ptrCliente ptrInicio, ptrCliente ptrFinal, int nroCarrito);
-void AtenderCliente(Caja cajas[], int nroCaja, ptrCliente ptrClienteInicio);
+void crearCajasHabilitadas();
+void nuevoCliente(ptrCliente *ptrInicio, ptrCliente *ptrFinal, int nroCarrito);
+void AtenderCliente(Caja cajas[], int nroCaja, ptrCliente *ptrClienteInicio);
 void reasignarCaja(int nroCajaActual, int nroCajaDestino, Caja cajas[]);
 
 int main(int argc, char const *argv[])
@@ -42,36 +43,55 @@ int main(int argc, char const *argv[])
     /*Pruebas*/
     ptrCliente ptrClientesInicio = NULL;
     ptrCliente ptrClientesFinal = NULL;
-    nuevoCliente(ptrClientesInicio, ptrClientesFinal, 1);
+    ptrCaja ptrCajaPrueba = NULL;
+    FILE *archivo;
+    crearCajasHabilitadas();
+    nuevoCliente(&ptrClientesInicio, &ptrClientesFinal, 1);
+    nuevoCliente(&ptrClientesInicio, &ptrClientesFinal, 2);
+    nuevoCliente(&ptrClientesInicio, &ptrClientesFinal, 3);
+    nuevoCliente(&ptrClientesInicio, &ptrClientesFinal, 4);
+    nuevoCliente(&ptrClientesInicio, &ptrClientesFinal, 5);
+    ptrCajaPrueba = CajasHabilitadas(archivo);
     return 0;
 }
 //2.
 ptrCaja CajasHabilitadas(FILE *archivo)
 {
     Caja cajas[40];
-    archivo = fopen("Cajas.dat", "r");
+    int nroCaja, efectivo;
+    archivo = fopen(".\\99.Finales\\Cajas.dat", "r");
     for (int i = 0; i < 40; i++)
     {
-        fscanf(archivo, "%d %d", &cajas[i].numeroCaja, &cajas[i].efectivo);
+        fscanf(archivo, "%d %f", &cajas[i].numeroCaja, &cajas[i].efectivo);
         cajas[i].ptrClienteAsignado = NULL;
     }
     fclose(archivo);
     return cajas;
 }
+void crearCajasHabilitadas()
+{
+    FILE *archivo;
+    archivo = fopen(".\\99.Finales\\Cajas.dat", "w");
+    for (int i = 0; i < 40; i++)
+    {
+        fprintf(archivo, "%d %f\n", i + 1, ((float)rand() / (float)(RAND_MAX)) * 1000);
+    }
+    fclose(archivo);
+}
 //3.
-void nuevoCliente(ptrCliente ptrInicio, ptrCliente ptrFinal, int nroCarrito)
+void nuevoCliente(ptrCliente *ptrInicio, ptrCliente *ptrFinal, int nroCarrito)
 {
     ptrCliente ptrNuevo = (ptrCliente)malloc(sizeof(Cliente));
     ptrNuevo->nroCarrito = nroCarrito;
-    if (ptrInicio == NULL && ptrFinal == NULL)
+    if ((*ptrInicio) == NULL && (*ptrFinal) == NULL)
     {
-        ptrInicio = ptrNuevo;
-        ptrFinal = ptrNuevo;
+        (*ptrInicio) = ptrNuevo;
+        (*ptrFinal) = ptrNuevo;
     }
     else
     {
-        ptrFinal->ptrSiguiente = ptrNuevo;
-        ptrFinal = ptrNuevo;
+        (*ptrFinal)->ptrSiguiente = ptrNuevo;
+        (*ptrFinal) = ptrNuevo;
     }
 }
 //4.
