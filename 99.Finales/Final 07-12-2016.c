@@ -18,7 +18,7 @@ typedef struct nodoUsuario
 {
     Usuario info;
     struct ptrUsuario *ptrSiguiente;
-} NodoUsuario, ptrNodoUsuario;
+} NodoUsuario, *ptrNodoUsuario;
 
 typedef struct mensaje
 {
@@ -55,12 +55,13 @@ typedef struct nodoConversacion
 ptrNodoConversacion insertarConversacionOrdenado(ptrNodoConversacion l, Conversacion x);
 ptrNodoMensaje insertarMensajeOrdenado(ptrNodoMensaje *l, Mensaje x);
 ptrConversacion *eliminarNodo(ptrConversacion *l, Conversacion x);
-ptrConversacion *buscarEnLista(ptrConversacion *l, int x);
+ptrNodoConversacion buscarEnListaConversacion(ptrNodoConversacion l, int x);
+ptrNodoUsuario buscarEnListaUsuario(ptrNodoUsuario l, int x);
 int fechaAEntero();  //Devuelve AAMMDDHHMM
 int numeroMensaje(); //genera un nro unico para cada mensaje
 
 //2.Declarar el prototipo de funcion LosMensajerRecibidos, para cumplir con lo que se requiere cueando llega un nuevo mensaje:
-void LosMensajerRecibidos(ptrNodoConversacion conversacionInicio, ptrNodoMensaje mensajeInicio, int idConversacion, char Mensaje[MAX]);
+void LosMensajerRecibidos(ptrNodoConversacion conversaciones, ptrNodoUsuario usuarios, int idConversacion, char Mensaje[MAX]);
 
 int main(int argc, char const *argv[])
 {
@@ -68,17 +69,28 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-//3.COdificar la funcion LosMensajerRecibidos. 
-void LosMensajerRecibidos(ptrNodoConversacion conversacionInicio, ptrNodoMensaje mensajeInicio, int idConversacion, char Mensaje[MAX])
+//3.COdificar la funcion LosMensajerRecibidos.
+void LosMensajerRecibidos(ptrNodoConversacion conversaciones, ptrNodoUsuario usuarios, int idConversacion, char Mensaje[MAX])
 {
+    //crear el nuevo mensaje
     ptrMensaje mensajeRecibido = (ptrMensaje)malloc(sizeof(Mensaje));
-    ptrNodoMensaje nodoMensajeRecibido = (ptrNodoMensaje)malloc(sizeof(NodoMensaje));
     mensajeRecibido->fecha = fechaAEntero();
     mensajeRecibido->idMensaje = numeroMensaje();
     *mensajeRecibido->mensaje = Mensaje;
     mensajeRecibido->leido = 0;
     //Buscar la conversacion
+    ptrNodoConversacion conversacionActual = buscarEnListaConversacion(conversaciones, idConversacion);
     //Obtenes el ptr a mensajes recibidos
+    ptrMensaje mensajesRecibidos;
+    mensajesRecibidos = conversacionActual->info.ptrMensajeRecibido;
     //insertas el Mensaje al final de el ptr MensajesRecibidos
-    insertarMensajeOrdenado(nodoMensajeRecibido, *mensajeRecibido);
+    insertarMensajeOrdenado(mensajesRecibidos, *mensajeRecibido);
+    //Notificar al usuario que lo envio que el mensaje fue recibido. idEmisor . usuario.recibido = 1
+    ptrNodoUsuario ptrUsuarioEmisor = buscarEnListaUsuario(usuarios, conversacionActual->info.idEmisor);
+    ptrUsuario usuarioEmisor = &ptrUsuarioEmisor->info;
+    usuarioEmisor->recibido = 1;
+    //Colocar la conversacion al inicio de la lista
+    //ptrNodoConversacion conversacionAux = conversaciones;
+    conversacionActual->ptrSiguiente = conversaciones;
+    conversaciones = conversacionActual;
 }
