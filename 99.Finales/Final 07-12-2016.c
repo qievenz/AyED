@@ -1,8 +1,8 @@
 /* Whatsapp */
+#define MAX 250
 #include <stdio.h>
 #include <stdlib.h>
 //#define LOG(x) printf(x)
-#define N 250
 
 //1.Definir y declarar todas las estructuras
 typedef struct usuario
@@ -10,7 +10,7 @@ typedef struct usuario
     int idUsuario;
     int recibido; //1 recibido, 0 no recibido
     int entregado;
-    char otrosDatos[N];
+    char otrosDatos[MAX];
     //struct ptrUsuario *ptrSiguiente;
 } Usuario, *ptrUsuario;
 
@@ -25,7 +25,7 @@ typedef struct mensaje
     int fecha; //orden decreciente
     int idMensaje;
     int leido; //1 leido, 0 no leido
-    char mensaje[N];
+    char mensaje[MAX];
     //struct ptrMensaje *ptrSiguiente;
 } Mensaje, *ptrMensaje;
 
@@ -60,7 +60,7 @@ int fechaAEntero();  //Devuelve AAMMDDHHMM
 int numeroMensaje(); //genera un nro unico para cada mensaje
 
 //2.Declarar el prototipo de funcion LosMensajerRecibidos, para cumplir con lo que se requiere cueando llega un nuevo mensaje:
-void LosMensajerRecibidos(int idConversacion, char Mensaje[N]);
+void LosMensajerRecibidos(ptrNodoConversacion conversacionInicio, ptrNodoMensaje mensajeInicio, int idConversacion, char Mensaje[MAX]);
 
 int main(int argc, char const *argv[])
 {
@@ -68,8 +68,8 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-//3.COdificar la funcion anterior.
-void LosMensajerRecibidos(int idConversacion, char Mensaje[N])
+//3.COdificar la funcion LosMensajerRecibidos. 
+void LosMensajerRecibidos(ptrNodoConversacion conversacionInicio, ptrNodoMensaje mensajeInicio, int idConversacion, char Mensaje[MAX])
 {
     ptrMensaje mensajeRecibido = (ptrMensaje)malloc(sizeof(Mensaje));
     ptrNodoMensaje nodoMensajeRecibido = (ptrNodoMensaje)malloc(sizeof(NodoMensaje));
