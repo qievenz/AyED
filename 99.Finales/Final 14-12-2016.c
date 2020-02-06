@@ -54,18 +54,11 @@ main(int argc, char const *argv[])
 
 Representante *GenrarListaConsejerosDocentes(Representante docentes[15])
 {
-    int resultado_tam = 5;
-    Representante resultado[resultado_tam];
-    for (int i = 0; i < 15; i++)
+    Representante resultado[5];
+    OrdenarVector(docentes, 15);
+    for (int i = 0; i < 5; i++)
     {
-        for (int j = 0; j < 5; j++)
-        {
-            if (docentes[i].votos > resultado[j].votos)
-            {
-                resultado[j] = docentes[i];
-            }
-        }
+        resultado[i] = docentes[i];
     }
-    //    OrdenarVector(resultado, resultado_tam);
     return resultado;
 }

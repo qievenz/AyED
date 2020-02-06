@@ -1,7 +1,7 @@
 /* comentario */
 #include <stdio.h>
 #include <stdlib.h>
-#define LOG(x) printf(x)
+//#define LOG(x) printf(x)
 
 typedef struct cliente
 {
