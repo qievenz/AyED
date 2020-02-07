@@ -31,6 +31,7 @@ typedef struct nodoSeleccion
 } NodoSeleccion, *ptrNodoSeleccion;
 
 void cargarDatosEnMemoria(FILE *archivoNomina, FILE *archivoSeleccion, ptrNodoSeleccion ptrSeleccion, ptrNodoNomina ptrNomina);
+int edadDelCandidato(int fechaNac);
 //2. bool
 int jugoEnOtraSeleccion(ptrNodoSeleccion *ptrNodoInicio, int idJugador);
 
@@ -69,4 +70,49 @@ void cargarDatosEnMemoria(FILE *archivoNomina, FILE *archivoSeleccion, ptrNodoSe
 }
 
 //3.
-void puedeSerCitado()
+int jugoEnOtraSeleccion(ptrNodoSeleccion *ptrSeleccionInicio, int idJugador)
+{
+    int resultado = 0;
+    int edad = 0;
+    ptrNodoSeleccion ptrSeleccionActual;
+    ptrSeleccionActual = ptrSeleccionInicio;
+    while (ptrSeleccionActual != NULL)
+    {
+        if (ptrSeleccionActual->info.idJugador == idJugador)
+        {
+            resultado = 1;
+            break;
+        }
+
+        ptrSeleccionActual = ptrSeleccionActual->ptrSiguiente;
+    }
+
+    return resultado;
+}
+
+//4.
+int puedeSerCitado(int idJugador, Seleccion citado, ptrNodoNomina *ptrJugadorInicio, ptrNodoSeleccion *ptrSeleccionInicio)
+{
+    int resultado = 0;
+    ptrNodoNomina ptrNominaActual;
+    ptrNominaActual = ptrJugadorInicio;
+    while (ptrNominaActual != NULL)
+    {
+        if (ptrNominaActual->info.idJugador == idJugador)
+        {
+            break;
+        }
+        else
+        {
+            ptrNominaActual = ptrNominaActual->ptrSiguiente;
+        }
+    }
+    if (ptrNominaActual != NULL)
+    {
+        if (ptrNominaActual->info.pais == citado.pais && edadDelCandidato(ptrNominaActual->info.fecha) < 30 && jugoEnOtraSeleccion(ptrSeleccionInicio, idJugador) == 0)
+        {
+            resultado = 1;
+        }
+    }
+    return resultado;
+}
