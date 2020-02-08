@@ -8,7 +8,7 @@
 //1.
 typedef struct rNodoNombre
 {
-    char letra;
+    int valorLetra;
     struct rNodoNombre *ptrSiguiente;
 } NodoNombre, *ptrNodoNombre;
 
@@ -59,21 +59,27 @@ void CargarNombre(char vec[], int len)
 */
 ptrNodoNombre CargarNombre()
 {
-    ptrNodoNombre nuevo;
+    ptrNodoNombre nuevo = NULL;
     ptrNodoNombre anterior = nuevo;
     ptrNodoNombre resultado = nuevo;
-    char dato;
+    char letra;
     printf("Ingrese letra a letra el nombre:\n");
-    scanf("%c", dato);
+    scanf("%c", letra);
     while (!feof(stdin))
     {
         nuevo = (ptrNodoNombre)malloc(sizeof(NodoNombre));
-        nuevo->letra = dato;
-        anterior->ptrSiguiente = nuevo;
+        nuevo->valorLetra = letra - 'A' + 1;
+        if (anterior != NULL)
+        {
+            anterior->ptrSiguiente = nuevo;
+        }
+        else
+        {
+            resultado = nuevo;
+        }
         anterior = nuevo;
-        scanf("%c", dato);
+        scanf("%c", letra);
     }
-
     return resultado;
 }
 //3.
